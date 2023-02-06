@@ -2,18 +2,31 @@ import { AppDataSource } from "./data-source";
 import { Photo } from "./entity/Photo";
 
 AppDataSource.initialize()
-  .then(() => {
+  .then(async () => {
     console.log("start...");
 
-    const photo = new Photo();
+    const photoRepository = AppDataSource.getRepository(Photo);
 
-    photo.name = "my photo";
-    photo.description = "my description";
-    photo.filename = "photo.jpg";
-    photo.views = 1;
-    photo.isPublished = true;
+    const allPhotos = await photoRepository.find();
+    console.log("allPhotos: ", allPhotos);
 
-    AppDataSource.manager.save(photo);
+    const firstPhoto = await photoRepository.findOneBy({ id: 1 });
+    console.log("firstPhoto: ", firstPhoto);
+
+    const myPhotoPhoto = await photoRepository.findOneBy({ name: "my photo" });
+    console.log("myPhotoPhoto: ", myPhotoPhoto);
+
+    const allViewedPhotos = await photoRepository.findBy({ views: 1 });
+    console.log("allViewedPhotos: ", allViewedPhotos);
+
+    const allPublishedPhotos = await photoRepository.findBy({
+      isPublished: true,
+    });
+    console.log("allPublishedPhotos: ", allPublishedPhotos);
+
+    const [photos, photosCount] = await photoRepository.findAndCount();
+    console.log("photos: ", photos);
+    console.log("photosCount: ", photosCount);
   })
   .catch((error) => {
     console.log(error);
