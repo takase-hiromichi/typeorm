@@ -7,26 +7,15 @@ AppDataSource.initialize()
 
     const photoRepository = AppDataSource.getRepository(Photo);
 
-    const allPhotos = await photoRepository.find();
-    console.log("allPhotos: ", allPhotos);
-
-    const firstPhoto = await photoRepository.findOneBy({ id: 1 });
-    console.log("firstPhoto: ", firstPhoto);
-
-    const myPhotoPhoto = await photoRepository.findOneBy({ name: "my photo" });
-    console.log("myPhotoPhoto: ", myPhotoPhoto);
-
-    const allViewedPhotos = await photoRepository.findBy({ views: 1 });
-    console.log("allViewedPhotos: ", allViewedPhotos);
-
-    const allPublishedPhotos = await photoRepository.findBy({
-      isPublished: true,
+    const photo = await photoRepository.findOneBy({
+      id: 1,
     });
-    console.log("allPublishedPhotos: ", allPublishedPhotos);
 
-    const [photos, photosCount] = await photoRepository.findAndCount();
-    console.log("photos: ", photos);
-    console.log("photosCount: ", photosCount);
+    console.log("before photo: ", photo);
+
+    await photoRepository.remove(photo);
+
+    console.log("after photo: ", photo);
   })
   .catch((error) => {
     console.log(error);
