@@ -4,6 +4,7 @@ import {
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  Relation,
 } from "typeorm";
 import { Photo } from "./Photo";
 
@@ -21,7 +22,7 @@ export class PhotoMetadata {
   compressed: boolean;
   @Column()
   comment: string;
-  @OneToOne(() => Photo)
+  @OneToOne(() => Photo, (photo) => photo.metadata)
   @JoinColumn()
   photo: Photo;
 }
