@@ -17,7 +17,7 @@ export class PhotoMetadata {
   @Column("int")
   width: number;
   @Column()
-  oriientation: string;
+  orientation: string;
   @Column()
   compressed: boolean;
   @Column()
